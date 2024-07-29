@@ -1,47 +1,47 @@
-'use client';
+"use client";
 
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { useState } from 'react';
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import { useState } from "react";
 
-import MyCheckbox from '@/components/MyCheckbox';
-import MyTextInput from '@/components/MyTextInput';
-import MyPasswordInput from '@/components/MyPasswordInput';
-import Link from 'next/link';
+import MyCheckbox from "@/components/MyCheckbox";
+import MyTextInput from "@/components/MyTextInput";
+import MyPasswordInput from "@/components/MyPasswordInput";
+import Link from "next/link";
 
 const Signup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialValues = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
     acceptedTerms: false,
   };
 
   const schemaObject = Yup.object({
     firstName: Yup.string()
-      .max(15, 'Must be 15 characters or less')
-      .required('Required'),
+      .max(15, "Must be 15 characters or less")
+      .required("Required"),
     lastName: Yup.string()
-      .max(20, 'Must be 20 characters or less')
-      .required('Required'),
-    email: Yup.string().email('Invalid email address').required('Required'),
+      .max(20, "Must be 20 characters or less")
+      .required("Required"),
+    email: Yup.string().email("Invalid email address").required("Required"),
     password: Yup.string()
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-        'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character'
+        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
       )
-      .min(8, 'Password must be at least 8 characters')
-      .required('Password is required'),
+      .min(8, "Password must be at least 8 characters")
+      .required("Password is required"),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Please confirm your password'),
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Please confirm your password"),
     acceptedTerms: Yup.boolean()
-      .required('Required')
-      .oneOf([true], 'You must accept the terms and conditions.'),
+      .required("Required")
+      .oneOf([true], "You must accept the terms and conditions."),
   });
 
   const handleSubmit = (values, actions) => {
@@ -57,14 +57,18 @@ const Signup = () => {
   };
 
   return (
-    <section className="grid lg:place-items-center w-[100vw] min-h-screen py-10">
+    <section className="grid min-h-screen w-[100vw] py-10 lg:place-items-center">
       <Formik
         initialValues={initialValues}
         validationSchema={schemaObject}
-        onSubmit={handleSubmit}>
-        <Form className="lg:w-[60%] p-6 lg:mx-auto gap-5 flex flex-col">
-          <button className="border-2 rounded-lg px-6 py-3 w-full">
+        onSubmit={handleSubmit}
+      >
+        <Form className="flex flex-col gap-5 p-6 lg:mx-auto lg:w-[60%]">
+          <button className="flex w-full items-center justify-center rounded-lg border-2 px-6 py-3">
             Sign Up with Google
+            <span className="m-0 ms-4 text-3xl leading-none">
+              <ion-icon src="/svg/google.svg"></ion-icon>
+            </span>
           </button>
           <div className="grid gap-6 md:grid-cols-2">
             <MyTextInput
@@ -72,7 +76,7 @@ const Signup = () => {
               name="firstName"
               id="firstName"
               type="text"
-              placeholder="Jane"
+              placeholder="Tate"
               focus
             />
 
@@ -81,7 +85,7 @@ const Signup = () => {
               name="lastName"
               id="lastName"
               type="text"
-              placeholder="Doe"
+              placeholder="McRae"
             />
           </div>
 
@@ -90,7 +94,7 @@ const Signup = () => {
             name="email"
             id="email"
             type="email"
-            placeholder="jane@formik.com"
+            placeholder="tatemcrae88@gmail.com"
           />
 
           <MyPasswordInput
@@ -112,16 +116,18 @@ const Signup = () => {
           </MyCheckbox>
 
           <button
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+            className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
             type="submit"
-            disabled={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Submit'}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
           <p className="text-center">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link
-              className="ms-2 text-sky-400 hover:underline cursor-pointer"
-              href="/login">
+              className="ms-2 cursor-pointer text-sky-400 hover:underline"
+              href="/login"
+            >
               Login
             </Link>
           </p>

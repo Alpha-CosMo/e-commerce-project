@@ -1,35 +1,35 @@
-'use client';
+"use client";
 
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { useState } from 'react';
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import { useState } from "react";
 
-import MyCheckbox from '@/components/MyCheckbox';
-import MyTextInput from '@/components/MyTextInput';
-import MyPasswordInput from '@/components/MyPasswordInput';
-import Link from 'next/link';
+import MyCheckbox from "@/components/MyCheckbox";
+import MyTextInput from "@/components/MyTextInput";
+import MyPasswordInput from "@/components/MyPasswordInput";
+import Link from "next/link";
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialValues = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     rememberMe: false,
   };
 
   const schemaObject = Yup.object({
-    email: Yup.string().email('Invalid email address').required('Required'),
+    email: Yup.string().email("Invalid email address").required("Required"),
     password: Yup.string()
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-        'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character'
+        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
       )
-      .min(8, 'Password must be at least 8 characters')
-      .required('Password is required'),
+      .min(8, "Password must be at least 8 characters")
+      .required("Password is required"),
     rememberMe: Yup.boolean()
-      .required('Required')
-      .oneOf([true], 'You must accept the terms and conditions.'),
+      .required("Required")
+      .oneOf([true], "You must accept the terms and conditions."),
   });
 
   const handleSubmit = (values, actions) => {
@@ -45,18 +45,22 @@ const Login = () => {
   };
 
   return (
-    <section className="grid lg:place-items-center items-center w-[100vw] h-screen">
+    <section className="grid h-screen w-[100vw] items-center lg:place-items-center">
       <Formik
         initialValues={initialValues}
         validationSchema={schemaObject}
-        onSubmit={handleSubmit}>
-        <Form className="lg:w-[60%] p-6 lg:mx-auto gap-5 flex flex-col">
-          <h1 className="text-center text-2xl mb-6">
+        onSubmit={handleSubmit}
+      >
+        <Form className="flex flex-col gap-5 p-6 lg:mx-auto lg:w-[60%]">
+          <h1 className="mb-6 text-center text-2xl">
             Login to get access to all our amazing products
           </h1>
 
-          <button className="border-2 rounded-lg px-6 py-3 w-full">
+          <button className="flex w-full items-center justify-center rounded-lg border-2 px-6 py-3">
             Login with Google
+            <span className="m-0 ms-4 text-3xl leading-none">
+              <ion-icon src="/svg/google.svg"></ion-icon>
+            </span>
           </button>
 
           <MyTextInput
@@ -64,7 +68,7 @@ const Login = () => {
             name="email"
             id="email"
             type="email"
-            placeholder="jane@formik.com"
+            placeholder="tatemcrae88@gmail.com"
           />
 
           <MyPasswordInput
@@ -78,23 +82,26 @@ const Login = () => {
             <MyCheckbox name="rememberMe">Remember me</MyCheckbox>
 
             <Link
-              className="ms-2 text-sky-700 font-semibold hover:underline hover:cursor-pointer"
-              href="/forgot-password">
+              className="ms-2 font-medium text-sky-600 hover:cursor-pointer hover:underline"
+              href="/forgot-password"
+            >
               Forgot Password?
             </Link>
           </div>
 
           <button
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+            className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
             type="submit"
-            disabled={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Submit'}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
           <p className="text-center">
-            Don&apos;t have an account?{' '}
+            Don&apos;t have an account?{" "}
             <Link
-              className="ms-2 text-sky-400 hover:underline hover:cursor-pointer"
-              href="/signup">
+              className="ms-2 text-sky-400 hover:cursor-pointer hover:underline"
+              href="/signup"
+            >
               SignUp
             </Link>
           </p>

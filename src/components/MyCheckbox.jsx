@@ -9,17 +9,20 @@ const MyCheckbox = ({ children, ...props }) => {
   return (
     <div>
       <input
-        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
-        id='checkbox'
+        className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300"
+        id="checkbox"
         type="checkbox"
         {...field}
         {...props}
       />
-      <label className="ms-2 text-sm font-medium text-gray-900" for="checkbox">
+      <label
+        className="ms-2 text-sm font-medium text-gray-900"
+        htmlFor="checkbox"
+      >
         {children}
       </label>
       {meta.touched && meta.error ? (
-        <div className="error text-red-600">{meta.error}</div>
+        <div className="text-sm text-red-500 error">{meta.error}</div>
       ) : null}
     </div>
   );

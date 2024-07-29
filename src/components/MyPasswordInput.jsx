@@ -1,7 +1,6 @@
-'use client';
-// import { AiFillEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { useField } from 'formik';
-import { useState } from 'react';
+"use client";
+import { useField } from "formik";
+import { useState } from "react";
 
 const MyPasswordInput = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -15,21 +14,27 @@ const MyPasswordInput = ({ label, ...props }) => {
     <div>
       <label
         htmlFor={props.id || props.name}
-        className="block mb-2 text-sm font-medium text-gray-900">
+        className="mb-2 block text-sm font-medium text-gray-900"
+      >
         {label}
       </label>
       <div className="relative">
         <input
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-          type={showPassword ? 'text' : 'password'}
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          type={showPassword ? "text" : "password"}
           {...field}
           {...props}
         />
         <button
-          className="absolute cursor-pointer right-3 top-1/2 -translate-y-1/2"
-          onClick={() => setShowPassword((prev) => !prev)}>
-          {/* {showPassword ? <AiFillEye /> : <AiOutlineEyeInvisible />} */}
-          {showPassword ? 'Hide' : 'Show'}
+          className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-2xl"
+          onClick={() => setShowPassword((prev) => !prev)}
+          type="button"
+        >
+          {showPassword ? (
+            <ion-icon name="eye-off-outline"></ion-icon>
+          ) : (
+            <ion-icon name="eye-outline"></ion-icon>
+          )}
         </button>
       </div>
       {meta.touched && meta.error ? (

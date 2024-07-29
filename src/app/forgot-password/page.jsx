@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { useState } from 'react';
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import { useState } from "react";
 
-import MyTextInput from '@/components/MyTextInput';
-import Link from 'next/link';
+import MyTextInput from "@/components/MyTextInput";
+import Link from "next/link";
 
 const ForgotPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,36 +24,41 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <section className="grid lg:place-items-center items-center w-[100vw] h-screen">
+      <section className="grid h-screen w-[100vw] items-center lg:place-items-center">
         <Link
-          className="absolute top-[10%] left-[10%] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-          href="/login">
-            Back
+          className="absolute left-[10%] top-[10%] w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+          href="/login"
+        >
+          Back
         </Link>
         <Formik
           initialValues={{
-            email: '',
+            email: "",
           }}
           validationSchema={Yup.object({
             email: Yup.string()
-              .email('Invalid email address')
-              .required('Required'),
+              .email("Invalid email address")
+              .required("Required"),
           })}
-          onSubmit={handleSubmit}>
-          <Form className="lg:w-[60%] p-6 lg:mx-auto gap-5 flex flex-col">
-            <h1 className='text-2xl text-center mb-6'>We&apos;ll send you a link to reset your password</h1>
+          onSubmit={handleSubmit}
+        >
+          <Form className="flex flex-col gap-5 p-6 lg:mx-auto lg:w-[60%]">
+            <h1 className="mb-6 text-center text-2xl">
+              We&apos;ll send you a link to reset your password
+            </h1>
             <MyTextInput
               label="Email Address"
               name="email"
               type="email"
-              placeholder="jane@formik.com"
+              placeholder="tatemcrae88@gmail.com"
             />
 
             <button
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
               type="submit"
-              disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
             </button>
           </Form>
         </Formik>

@@ -1,7 +1,7 @@
-const Home = () => {
+const Cart = () => {
   return (
     <div>page</div>
   )
 }
 
-export default Home
+export default Cart
