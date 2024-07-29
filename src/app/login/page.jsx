@@ -82,7 +82,10 @@ const Login = () => {
             Login to get access to all our amazing products
           </h1>
 
-          <button onClick={SignInWithPopUp} className="border-2 rounded-lg px-6 py-3 w-full">
+          <button
+            onClick={SignInWithPopUp}
+            className="flex w-full items-center justify-center rounded-lg border-2 px-6 py-3"
+          >
             Login with Google
             <span className="m-0 ms-4 text-3xl leading-none">
               <ion-icon src="/svg/google.svg"></ion-icon>

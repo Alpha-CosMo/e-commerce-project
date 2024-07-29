@@ -7,17 +7,18 @@ import MyCheckbox from "@/components/MyCheckbox";
 import MyTextInput from "@/components/MyTextInput";
 import MyPasswordInput from "@/components/MyPasswordInput";
 import Link from "next/link";
-import {createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth"
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { auth, db } from "../config/firebase";
-import { addDoc, collection } from "firebase/firestore"; 
-import { useRouter } from 'next/navigation';
-
-
-
+import { addDoc, collection } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const provider = new GoogleAuthProvider();
 
   const initialValues = {
@@ -40,7 +41,7 @@ const Signup = () => {
     password: Yup.string()
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
+        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
       )
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
@@ -52,7 +53,7 @@ const Signup = () => {
       .oneOf([true], "You must accept the terms and conditions."),
   });
 
-  const SignUpWithPopUp = async() =>{
+  const SignUpWithPopUp = async () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -61,17 +62,22 @@ const Signup = () => {
         // The signed-in user info.
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
-        router.push('/')
-      }).catch((error) => {
+        router.push("/");
+      })
+      .catch((error) => {
         const errorMessage = error.message;
         const credential = GoogleAuthProvider.credentialFromError(error);
       });
-  }
+  };
 
-
-  const handleSubmit = async( values, actions) => {
-    const res = await createUserWithEmailAndPassword(auth, values.email, values.password);
-    console.log(values.firstName)
+  const handleSubmit = async (values, actions) => {
+    setIsSubmitting((prev) => !prev);
+    const res = await createUserWithEmailAndPassword(
+      auth,
+      values.email,
+      values.password,
+    );
+    console.log(values.firstName);
     console.log(values);
     // Add a second document with a generated ID.
 
@@ -79,14 +85,9 @@ const Signup = () => {
       Userid: res.user.uid,
       First_Name: values.firstName,
       Last_Name: values.lastName,
-      Email: values.email
+      Email: values.email,
     });
-
-
     setIsSubmitting((prev) => !prev);
-
-    //! Delete Timeout fn then handle POST Operation Here
-    
   };
 
   return (
@@ -96,8 +97,12 @@ const Signup = () => {
         validationSchema={schemaObject}
         onSubmit={handleSubmit}
       >
-        <Form className="lg:w-[60%] p-6 lg:mx-auto gap-5 flex flex-col">
-          <button onClick={SignUpWithPopUp} className="border-2 rounded-lg px-6 py-3 w-full">
+        <Form className="flex flex-col gap-5 p-6 lg:mx-auto lg:w-[60%]">
+          <button
+            type="button"
+            onClick={SignUpWithPopUp}
+            className="flex w-full items-center justify-center rounded-lg border-2 px-6 py-3"
+          >
             Sign Up with Google
             <span className="m-0 ms-4 text-3xl leading-none">
               <ion-icon src="/svg/google.svg"></ion-icon>
@@ -161,7 +166,7 @@ const Signup = () => {
           <p className="text-center">
             Already have an account?{" "}
             <Link
-              className="ms-2 text-sky-400 hover:underline cursor-pointer"
+              className="ms-2 cursor-pointer text-sky-400 hover:underline"
               href="/login"
             >
               Login
