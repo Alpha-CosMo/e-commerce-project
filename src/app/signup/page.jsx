@@ -3,14 +3,22 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
-
 import MyCheckbox from "@/components/MyCheckbox";
 import MyTextInput from "@/components/MyTextInput";
 import MyPasswordInput from "@/components/MyPasswordInput";
 import Link from "next/link";
+import {createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth"
+import { auth, db } from "../config/firebase";
+import { addDoc, collection } from "firebase/firestore"; 
+import { useRouter } from 'next/navigation';
+
+
+
 
 const Signup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter()
+  const provider = new GoogleAuthProvider();
 
   const initialValues = {
     firstName: "",
@@ -32,7 +40,7 @@ const Signup = () => {
     password: Yup.string()
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
       )
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
@@ -44,16 +52,41 @@ const Signup = () => {
       .oneOf([true], "You must accept the terms and conditions."),
   });
 
-  const handleSubmit = (values, actions) => {
+  const SignUpWithPopUp = async() =>{
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        router.push('/')
+      }).catch((error) => {
+        const errorMessage = error.message;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+      });
+  }
+
+
+  const handleSubmit = async( values, actions) => {
+    const res = await createUserWithEmailAndPassword(auth, values.email, values.password);
+    console.log(values.firstName)
+    console.log(values);
+    // Add a second document with a generated ID.
+
+    await addDoc(collection(db, "User_Detail"), {
+      Userid: res.user.uid,
+      First_Name: values.firstName,
+      Last_Name: values.lastName,
+      Email: values.email
+    });
+
+
     setIsSubmitting((prev) => !prev);
 
     //! Delete Timeout fn then handle POST Operation Here
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      actions.setSubmitting(false);
-      //! Reset submit status after POST operation is completed
-      setIsSubmitting((prev) => !prev);
-    }, 400);
+    
   };
 
   return (
@@ -63,8 +96,8 @@ const Signup = () => {
         validationSchema={schemaObject}
         onSubmit={handleSubmit}
       >
-        <Form className="flex flex-col gap-5 p-6 lg:mx-auto lg:w-[60%]">
-          <button className="flex w-full items-center justify-center rounded-lg border-2 px-6 py-3">
+        <Form className="lg:w-[60%] p-6 lg:mx-auto gap-5 flex flex-col">
+          <button onClick={SignUpWithPopUp} className="border-2 rounded-lg px-6 py-3 w-full">
             Sign Up with Google
             <span className="m-0 ms-4 text-3xl leading-none">
               <ion-icon src="/svg/google.svg"></ion-icon>
@@ -81,6 +114,7 @@ const Signup = () => {
             />
 
             <MyTextInput
+              // onChange={(e) => setLastName(e.target.value)}
               label="Last Name"
               name="lastName"
               id="lastName"
@@ -90,6 +124,7 @@ const Signup = () => {
           </div>
 
           <MyTextInput
+            // onChange={(e) => setEmail(e.target.value)}
             label="Email Address"
             name="email"
             id="email"
@@ -98,6 +133,7 @@ const Signup = () => {
           />
 
           <MyPasswordInput
+            // onChange={(e) => setPassword(e.target.value)}
             label="Enter Password"
             name="password"
             id="password"
@@ -125,7 +161,7 @@ const Signup = () => {
           <p className="text-center">
             Already have an account?{" "}
             <Link
-              className="ms-2 cursor-pointer text-sky-400 hover:underline"
+              className="ms-2 text-sky-400 hover:underline cursor-pointer"
               href="/login"
             >
               Login
