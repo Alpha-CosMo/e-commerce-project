@@ -3,7 +3,7 @@
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from "../config/firebase";
 import { useRouter } from 'next/navigation';
 import MyCheckbox from '@/components/MyCheckbox';
@@ -39,27 +39,27 @@ const Login = () => {
     
     
     const SignInWithPopUp = async() =>{
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          // The signed-in user info.
-          const user = result.user;
-          // IdP data available using getAdditionalUserInfo(result)
-          router.push('/')
-        }).catch((error) => {
-          const errorMessage = error.message;
-          const credential = GoogleAuthProvider.credentialFromError(error);
-        });
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider)
+      router.push('/')
+
+        // .then((result) => {
+        //   const credential = GoogleAuthProvider.credentialFromResult(result);
+        //   const token = credential.accessToken;
+        //   const user = result.user;
+        // }).catch((error) => {
+        //   const errorMessage = error.message;
+        //   const credential = GoogleAuthProvider.credentialFromError(error);
+        // });
     }
     
     
     const handleSubmit = async(values, actions) => {
       setIsSubmitting((prev) => !prev);
-      const res = await signInWithEmailAndPassword(auth, values.email, values.password);
+      await signInWithEmailAndPassword(auth, values.email, values.password);
       router.push('/')
-      const auth = getAuth();
+      console.log(auth.currentUser.uid)
+      // const auth = getAuth();
       
     // //! Delete Timeout fn then handle POST Operation Here
     // setTimeout(() => {
