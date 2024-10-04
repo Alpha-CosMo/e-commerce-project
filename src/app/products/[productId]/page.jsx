@@ -17,7 +17,7 @@ const ProductDetails = () => {
           <div className="lg:w-[70%] space-y-6 px-3">
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold">
-                Sneaker shoe {productId}
+                {productId}
               </h2>
               <p className="text-xl">NGN 50,000.00</p>
               <button // onClick={() => addToCart(Products.id)}

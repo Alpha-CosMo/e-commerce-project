@@ -1,22 +1,26 @@
 "use client";
 
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { useState } from 'react';
-import { signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import { useState } from "react";
+import {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { auth } from "../config/firebase";
-import { useRouter } from 'next/navigation';
-import MyCheckbox from '@/components/MyCheckbox';
-import MyTextInput from '@/components/MyTextInput';
-import MyPasswordInput from '@/components/MyPasswordInput';
-import Link from 'next/link';
-
+import { useRouter } from "next/navigation";
+import MyCheckbox from "@/components/MyCheckbox";
+import MyTextInput from "@/components/MyTextInput";
+import MyPasswordInput from "@/components/MyPasswordInput";
+import Link from "next/link";
+import Image from "next/image";
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const provider = new GoogleAuthProvider();
-  
+
   const initialValues = {
     email: "",
     password: "",
@@ -30,37 +34,35 @@ const Login = () => {
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
         "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
       )
-      .min(8, 'Password must be at least 8 characters')
-      .required('Password is required'),
-      rememberMe: Yup.boolean()
-      .required('Required')
-      .oneOf([true], 'You must accept the terms and conditions.'),
-    });
-    
-    
-    const SignInWithPopUp = async() =>{
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider)
-      router.push('/')
+      .min(8, "Password must be at least 8 characters")
+      .required("Password is required"),
+    rememberMe: Yup.boolean()
+      .required("Required")
+      .oneOf([true], "You must accept the terms and conditions."),
+  });
 
-        // .then((result) => {
-        //   const credential = GoogleAuthProvider.credentialFromResult(result);
-        //   const token = credential.accessToken;
-        //   const user = result.user;
-        // }).catch((error) => {
-        //   const errorMessage = error.message;
-        //   const credential = GoogleAuthProvider.credentialFromError(error);
-        // });
-    }
-    
-    
-    const handleSubmit = async(values, actions) => {
-      setIsSubmitting((prev) => !prev);
-      await signInWithEmailAndPassword(auth, values.email, values.password);
-      router.push('/')
-      console.log(auth.currentUser.uid)
-      // const auth = getAuth();
-      
+  const SignInWithPopUp = async () => {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+    router.push("/");
+
+    // .then((result) => {
+    //   const credential = GoogleAuthProvider.credentialFromResult(result);
+    //   const token = credential.accessToken;
+    //   const user = result.user;
+    // }).catch((error) => {
+    //   const errorMessage = error.message;
+    //   const credential = GoogleAuthProvider.credentialFromError(error);
+    // });
+  };
+
+  const handleSubmit = async (values, actions) => {
+    setIsSubmitting((prev) => !prev);
+    await signInWithEmailAndPassword(auth, values.email, values.password);
+    router.push("/");
+    console.log(auth.currentUser.uid);
+    // const auth = getAuth();
+
     // //! Delete Timeout fn then handle POST Operation Here
     // setTimeout(() => {
     //   alert(JSON.stringify(values, null, 2));
@@ -84,12 +86,17 @@ const Login = () => {
 
           <button
             onClick={SignInWithPopUp}
+            type="button"
             className="flex w-full items-center justify-center rounded-lg border-2 px-6 py-3"
           >
             Login with Google
-            <span className="m-0 ms-4 text-3xl leading-none">
-              <ion-icon src="/svg/google.svg"></ion-icon>
-            </span>
+            <Image
+              className="ms-4"
+              src="/svg/google.svg"
+              alt="google icon"
+              width={30}
+              height={30}
+            />
           </button>
 
           <MyTextInput

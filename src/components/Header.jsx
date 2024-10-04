@@ -1,7 +1,13 @@
+"use client";
+import { AuthContext } from "@/app/Context/AuthContext";
 import { Heart, LucideShoppingCart } from "lucide-react";
 import Link from "next/link";
+import { useContext } from "react";
 
 const Header = () => {
+  const { user } = useContext(AuthContext);
+  console.log("user is" + user);
+
   return (
     <nav className="z-20 w-full border-b border-gray-200 bg-white">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
@@ -119,7 +125,7 @@ const Header = () => {
 
         <form>
           <input
-            className="p-3"
+            className="bg-neutral-200 p-3"
             type="text"
             name="search"
             id="search"

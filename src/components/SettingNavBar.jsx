@@ -1,3 +1,4 @@
+import { ChevronRight } from 'lucide-react';
 import Link from "next/link";
 
 const SettingNavBar = () => {
@@ -8,7 +9,7 @@ const SettingNavBar = () => {
           <li>
             Personal Details
             <span className="text-2xl">
-              <ion-icon name="chevron-forward-outline"></ion-icon>
+              <ChevronRight/>
             </span>
           </li>
         </Link>
@@ -16,7 +17,7 @@ const SettingNavBar = () => {
           <li>
             Change Phone Number
             <span className="text-2xl">
-              <ion-icon name="chevron-forward-outline"></ion-icon>
+              <ChevronRight/>
             </span>
           </li>
         </Link>
@@ -24,7 +25,7 @@ const SettingNavBar = () => {
           <li>
             Delivery Details
             <span className="text-2xl">
-              <ion-icon name="chevron-forward-outline"></ion-icon>
+              <ChevronRight/>
             </span>
           </li>
         </Link>
@@ -32,7 +33,7 @@ const SettingNavBar = () => {
           <li>
             Change Password
             <span className="text-2xl">
-              <ion-icon name="chevron-forward-outline"></ion-icon>
+              <ChevronRight/>
             </span>
           </li>
         </Link>
@@ -40,7 +41,7 @@ const SettingNavBar = () => {
           <li>
             Linked Accounts
             <span className="text-2xl">
-              <ion-icon name="chevron-forward-outline"></ion-icon>
+              <ChevronRight/>
             </span>
           </li>
         </Link>
@@ -48,7 +49,7 @@ const SettingNavBar = () => {
           <li>
             Account Status
             <span className="text-2xl">
-              <ion-icon name="chevron-forward-outline"></ion-icon>
+              <ChevronRight/>
             </span>
           </li>
         </Link>

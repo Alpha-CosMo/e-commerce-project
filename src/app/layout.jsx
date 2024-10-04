@@ -1,7 +1,7 @@
-import { AuthContextProvider } from "./Context/AuthContext";
-import { Poppins } from "next/font/google";
 import "./globals.css";
-import Script from "next/script";
+import { Poppins } from "next/font/google";
+import { CartProvider } from "./Context/CartContext";
+import { AuthContextProvider } from "./Context/AuthContext";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -17,18 +17,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={poppins.className}>
-        <AuthContextProvider>{children}</AuthContextProvider>
-
-        <Script
-          async
-          type="module"
-          src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-        ></Script>
-        <Script
-          async
-          nomodule
-          src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-        ></Script>
+        <AuthContextProvider>
+          <CartProvider>{children}</CartProvider>
+        </AuthContextProvider>
       </body>
     </html>
   );

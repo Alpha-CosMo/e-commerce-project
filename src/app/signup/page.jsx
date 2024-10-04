@@ -15,6 +15,7 @@ import {
 import { auth, db } from "../config/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import Image from 'next/image';
 
 const Signup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -105,7 +106,7 @@ const Signup = () => {
           >
             Sign Up with Google
             <span className="m-0 ms-4 text-3xl leading-none">
-              <ion-icon src="/svg/google.svg"></ion-icon>
+              <Image src="/svg/google.svg" alt='google icon' width={50} height={50}/>
             </span>
           </button>
           <div className="grid gap-6 md:grid-cols-2">

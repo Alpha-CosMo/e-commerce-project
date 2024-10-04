@@ -1,5 +1,6 @@
 "use client";
 import { useField } from "formik";
+import { Eye, EyeOff } from 'lucide-react';
 import { useState } from "react";
 
 const MyPasswordInput = ({ label, ...props }) => {
@@ -31,9 +32,9 @@ const MyPasswordInput = ({ label, ...props }) => {
           type="button"
         >
           {showPassword ? (
-            <ion-icon name="eye-off-outline"></ion-icon>
+            <EyeOff/>
           ) : (
-            <ion-icon name="eye-outline"></ion-icon>
+            <Eye/>
           )}
         </button>
       </div>

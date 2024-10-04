@@ -7,13 +7,8 @@ const Footer = () => {
             href="https://flowbite.com/"
             className="mb-4 flex items-center space-x-3 sm:mb-0 rtl:space-x-reverse"
           >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
-            />
             <span className="self-center whitespace-nowrap text-2xl font-semibold">
-              Flowbite
+              StudCommerce
             </span>
           </a>
           <ul className="mb-6 flex flex-wrap items-center text-sm font-medium text-gray-500 sm:mb-0">
@@ -43,7 +38,7 @@ const Footer = () => {
         <span className="block text-sm text-gray-500 sm:text-center">
           © 2023{" "}
           <a href="https://flowbite.com/" className="hover:underline">
-            Flowbite™
+            StudCommerce
           </a>
           . All Rights Reserved.
         </span>

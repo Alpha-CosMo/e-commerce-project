@@ -11,7 +11,7 @@ function ProductsListing() {
     axios
       .get("https://api.escuelajs.co/api/v1/products")
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setProducts(response.data);
       })
       .catch((error) => {
@@ -33,13 +33,15 @@ function ProductsListing() {
                 width="640"
                 height="640"
               />
-              <div className="grid pt-5">
-                <p className="pl-2 text-[.8rem] lg:text-[1rem]">
+              <div className="flex flex-col pt-5 p-4">
+                <h2>
                   {product?.title}
-                </p>
-                <h3 className="text-Pink py-2 pl-2 font-semibold lg:py-5">
+                </h2>
+                <p className="font-semibold text-xl py-3">
                   NGN {Intl.NumberFormat().format(product?.price * 1000)}
-                </h3>
+                </p>
+
+                <button className='bg-primary text-white font-semibold p-4 rounded-lg'>Add to Cart</button>
               </div>
             </div>
           </Link>
