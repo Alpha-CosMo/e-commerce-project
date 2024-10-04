@@ -1,7 +1,3 @@
-
-// import Header from '@/components/Header';
-// import NavBar from '@/components/NavBar';
-// import Footer from '@/components/Footer';
 import { AuthContextProvider } from "./Context/AuthContext";
 import { Poppins } from "next/font/google";
 import "./globals.css";
@@ -20,12 +16,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <AuthContextProvider>
-          <body suppressHydrationWarning={true} className={poppins.className}>
-        {children}
+      <body suppressHydrationWarning={true} className={poppins.className}>
+        <AuthContextProvider>{children}</AuthContextProvider>
 
-        </AuthContextProvider>
-      <Script
+        <Script
           async
           type="module"
           src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
