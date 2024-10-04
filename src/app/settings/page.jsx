@@ -3,11 +3,20 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import { db } from "../config/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../config/firebase";
+import { useContext, useEffect } from 'react'
+import { AuthContext } from "../Context/AuthContext";
+import { collection, getDocs, doc, updateDoc, where, query } from "firebase/firestore";
 
 import MyTextInput from "@/components/MyTextInput";
 
 const Settings = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [users, setUsers] = useState("")
+  const [file, setFile] = useState("")
+
 
   const schemaObject = Yup.object({
     firstName: Yup.string().max(15, "Must be 15 characters or less"),
@@ -20,21 +29,69 @@ const Settings = () => {
     location: Yup.string().min(25, "Must be 25 characters or more"),
   });
 
-  const handleSubmit = (values, actions) => {
+
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const currentUserUid = user.uid;
+    
+        // Filter based on UID (or email, if preferred)
+        const q = query(collection(db, "User_Detail"), where("Userid", "==", currentUserUid));
+        getDocs(q)
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // Process the retrieved data
+              const userData = ({id:doc.id, ...doc.data()});
+              setUsers(userData);
+              console.log(userData.email);
+            });
+          })
+          .catch((error) => {
+            console.error("Error getting documents: ", error);
+          });
+      } else {
+        // User is not signed in
+        console.log("User is not signed in");
+      }
+    });
+
+},[])
+
+  const {currentUser} = useContext(AuthContext)
+
+  const handleSubmit = async(values, actions) => {
     setIsSubmitting((prev) => !prev);
 
-    //! Delete Timeout fn then handle POST Operation Here
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      actions.setSubmitting(false);
-      //! Reset submit status after POST operation is completed
-      setIsSubmitting((prev) => !prev);
-    }, 400);
+    const metadata = {
+      contentType: 'image/jpeg'
+    };
+    const storageRef = ref(storage, `images/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+    uploadTask.on(
+        (error) => {
+            console.log(error)
+        }, 
+        () => {
+        const productCollectionRef = collection(db, "Users") 
+        getDownloadURL(uploadTask.snapshot.ref).then( async(downloadURL) => {
+          const dbref = collection(db, "User_Detail")
+          const updateRef = doc(dbref, users.id)
+          const result = await updateDoc(updateRef, {
+            First_Name: values.firstName,
+            Last_Name: values.lastName,
+            Username: values.userName,
+            Location: values.location,
+            UserPics: downloadURL,
+            uid: currentUser.uid
+          })
+        });
+    })
   };
-
   return (
     <>
       <input
+        onChange={(e) => {setFile(e.target.files[0])}}
         className="mr-10"
         type="file"
         name="profile-photo"
@@ -61,31 +118,31 @@ const Settings = () => {
             label="First Name"
             name="firstName"
             type="text"
-            placeholder="Tate"
+            placeholder={users.First_Name}
           />
           <MyTextInput
             label="Last Name"
             name="lastName"
             type="text"
-            placeholder="McRae"
+            placeholder={users.Last_Name}
           />
           <MyTextInput
             label="Username"
             name="userName"
             type="text"
-            placeholder="tateM.R@88"
+            placeholder={users.Username}
           />
           <MyTextInput
             label="Date of Birth"
             name="dob"
             type="date"
-            placeholder="MM-DD-YYYY"
+            placeholder={users.DOB}
           />
           <MyTextInput
             label="Location"
             name="location"
             type="text"
-            placeholder="123 King Avenue, Km 27 Queen Street"
+            placeholder={users.Location}
           />
 
           <button

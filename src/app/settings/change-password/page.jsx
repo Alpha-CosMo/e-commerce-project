@@ -1,24 +1,31 @@
 "use client";
+import { getAuth, updatePassword } from "firebase/auth";
 
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import MyPasswordInput from "@/components/MyPasswordInput";
+import { AuthContext } from "@/app/Context/AuthContext";
 
 const ChangePassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {currentUser} = useContext(AuthContext)
+  const auth = getAuth();
 
-  const handleSubmit = (values, actions) => {
+const user = auth.currentUser;
+
+  const handleSubmit = async(values, actions) => {
     setIsSubmitting((prev) => !prev);
+    const newPassword = values.newPassword;
 
-    //! Delete Timeout fn then handle POST Operation Here
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      actions.setSubmitting(false);
-      //! Reset submit status after POST operation is completed
-      setIsSubmitting((prev) => !prev);
-    }, 400);
+    await updatePassword(user, newPassword)
+    try {
+      console.log("Update successful");
+    }
+    catch{
+      console.log("An error occured");
+    };
   };
 
   return (
