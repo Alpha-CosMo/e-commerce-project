@@ -1,10 +1,15 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import ProductsListing from "@/components/ProductsListing";
 
-const page = () => {
+const HomePage = () => {
   return (
-    <section>
-    <h1 className="text-3xl text-red-500">Home Page</h1>
-    </section>
-  )
-}
-export default page
+    <>
+      <Header />
+      <ProductsListing />
+      <Footer />
+    </>
+  );
+};
+
+export default HomePage;

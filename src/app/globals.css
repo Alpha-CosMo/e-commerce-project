@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* * {
+    border: 1px solid red;
+} */
+
+.section-padding {
+    @apply lg:px-12 md:px-8 px-6 py-8;
+}

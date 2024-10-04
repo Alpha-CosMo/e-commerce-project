@@ -107,11 +107,11 @@ const Login = () => {
             placeholder="*********"
           />
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between accent-primary">
             <MyCheckbox name="rememberMe">Remember me</MyCheckbox>
 
             <Link
-              className="ms-2 font-medium text-sky-600 hover:cursor-pointer hover:underline"
+              className="ms-2 font-medium text-primary hover:cursor-pointer hover:underline"
               href="/forgot-password"
             >
               Forgot Password?
@@ -119,7 +119,7 @@ const Login = () => {
           </div>
 
           <button
-            className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+            className="w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-bold text-white focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
             type="submit"
             disabled={isSubmitting}
           >
@@ -128,7 +128,7 @@ const Login = () => {
           <p className="text-center">
             Don&apos;t have an account?{" "}
             <Link
-              className="ms-2 text-sky-400 hover:cursor-pointer hover:underline"
+              className="ms-2 text-primary hover:cursor-pointer hover:underline"
               href="/signup"
             >
               SignUp

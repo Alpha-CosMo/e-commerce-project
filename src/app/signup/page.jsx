@@ -97,7 +97,7 @@ const Signup = () => {
         validationSchema={schemaObject}
         onSubmit={handleSubmit}
       >
-        <Form className="flex flex-col gap-5 p-6 lg:mx-auto lg:w-[60%]">
+        <Form className="flex flex-col gap-5 p-6 lg:mx-auto lg:w-[50%]">
           <button
             type="button"
             onClick={SignUpWithPopUp}
@@ -157,7 +157,7 @@ const Signup = () => {
           </MyCheckbox>
 
           <button
-            className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+            className="w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-bold text-white focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
             type="submit"
             disabled={isSubmitting}
           >
@@ -166,7 +166,7 @@ const Signup = () => {
           <p className="text-center">
             Already have an account?{" "}
             <Link
-              className="ms-2 cursor-pointer text-sky-400 hover:underline"
+              className="ms-2 cursor-pointer text-primary hover:underline"
               href="/login"
             >
               Login
