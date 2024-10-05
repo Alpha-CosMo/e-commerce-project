@@ -61,15 +61,6 @@ const Login = () => {
     await signInWithEmailAndPassword(auth, values.email, values.password);
     router.push("/");
     console.log(auth.currentUser.uid);
-    // const auth = getAuth();
-
-    // //! Delete Timeout fn then handle POST Operation Here
-    // setTimeout(() => {
-    //   alert(JSON.stringify(values, null, 2));
-    //   actions.setSubmitting(false);
-    //   //! Reset submit status after POST operation is completed
-    //   setIsSubmitting((prev) => !prev);
-    // }, 400);
   };
 
   return (

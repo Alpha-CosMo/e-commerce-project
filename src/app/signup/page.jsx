@@ -106,7 +106,7 @@ const Signup = () => {
           >
             Sign Up with Google
             <span className="m-0 ms-4 text-3xl leading-none">
-              <Image src="/svg/google.svg" alt='google icon' width={50} height={50}/>
+              <Image src="/svg/google.svg" alt='google icon' width={30} height={30}/>
             </span>
           </button>
           <div className="grid gap-6 md:grid-cols-2">

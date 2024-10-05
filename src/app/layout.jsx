@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Poppins } from "next/font/google";
-import { CartProvider } from "./Context/CartContext";
 import { AuthContextProvider } from "./Context/AuthContext";
+import { ShoppingCartProvider } from "./Context/ShoppingCartContext";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body suppressHydrationWarning={true} className={poppins.className}>
         <AuthContextProvider>
-          <CartProvider>{children}</CartProvider>
+          <ShoppingCartProvider>{children}</ShoppingCartProvider>
         </AuthContextProvider>
       </body>
     </html>
