@@ -52,7 +52,7 @@ function ProductsListing() {
               <div className="flex flex-col p-4 pt-5">
                 <h2>{product?.title}</h2>
                 <p className="py-3 text-xl font-semibold">
-                  NGN {Intl.NumberFormat().format(product?.price * 1000)}
+                  NGN {Intl.NumberFormat().format(product?.price)}
                 </p>
 
                 <button

@@ -1,5 +1,5 @@
 "use client";
-import { useShoppingCart } from '@/app/Context/ShoppingCartContext';
+import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
 import data from "/data.json";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -26,7 +26,7 @@ const ProductDetails = () => {
               <h2 className="text-2xl font-bold">{product?.title}</h2>
 
               <p className="text-xl">
-                NGN {Intl.NumberFormat().format(product?.price * 1000)}
+                NGN {Intl.NumberFormat().format(product?.price)}
               </p>
             </div>
 
