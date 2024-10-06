@@ -37,17 +37,19 @@ const Header = () => {
 
         <div className="flex gap-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={() => setOpen((prev) => !prev)}
-              className="relative inline-flex items-center rounded-lg bg-neutral-200 p-3 text-center text-black"
-            >
-              <LucideShoppingCart />
-              <span className="sr-only">Cart Quantity</span>
-              <div className="absolute -end-2 -top-2 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-primary text-xs font-bold text-white">
-                { cartItems?.length }
-              </div>
-            </button>
+            {cartItems?.length !== 0 && (
+              <button
+                type="button"
+                onClick={() => setOpen((prev) => !prev)}
+                className="relative inline-flex items-center rounded-lg bg-neutral-200 p-3 text-center text-black"
+              >
+                <LucideShoppingCart />
+                <span className="sr-only">Cart Quantity</span>
+                <div className="absolute -end-2 -top-2 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-primary text-xs font-bold text-white">
+                  {cartItems?.length}
+                </div>
+              </button>
+            )}
 
             <Drawer open={open} setOpen={setOpen} />
           </div>

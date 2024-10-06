@@ -10,9 +10,10 @@ import {
 } from "@headlessui/react";
 import { CreditCard, XIcon } from "lucide-react";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
+import Link from "next/link";
 
 export default function Drawer({ open, setOpen }) {
-  const { cartItems } = useShoppingCart();
+  const { cartItems, totalVal } = useShoppingCart();
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -55,19 +56,25 @@ export default function Drawer({ open, setOpen }) {
                       return <CartItem key={item.id} {...item} />;
                     })}
                   </div>
+                  {totalVal !== 0 && (
+                    <div className="mt-4 flex items-center justify-between">
+                      <h2 className="text-2xl font-semibold">
+                        Total:{" "}
+                        <span className="ms-auto">
+                          NGN {Intl.NumberFormat().format(totalVal)}
+                        </span>
+                      </h2>
 
-                  <div className='flex justify-between items-center mt-4'>
-                    <h2 className="text-2xl font-semibold">
-                      Total: <span className="ms-auto">$55,000</span>
-                    </h2>
-
-                    <button
-                      type="button"
-                      className="rounded-lg bg-primary px-4 py-2 text-center font-bold text-white"
-                    >
-                    Checkout <CreditCard className='ms-2 inline' />
-                    </button>
-                  </div>
+                      <Link href="/checkout">
+                        <button
+                          type="button"
+                          className="rounded-lg bg-primary px-4 py-2 text-center font-bold text-white"
+                        >
+                          Checkout <CreditCard className="ms-2 inline" />
+                        </button>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </DialogPanel>

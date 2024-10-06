@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
+import data from "/data.json";
 
 const ShoppingCartContext = createContext({});
 
@@ -12,6 +13,11 @@ export const ShoppingCartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const cartQty = cartItems?.reduce((qty, item) => {
     item.qty + qty;
+  }, 0);
+
+  const totalVal = cartItems.reduce((total, cartItem) => {
+    const item = data.find((i) => i.id === cartItem.id);
+    return total + (item?.price || 0) * cartItem.quantity;
   }, 0);
 
   function getItemsQty(id) {
@@ -65,6 +71,7 @@ export const ShoppingCartProvider = ({ children }) => {
         removeFromCart,
         cartItems,
         cartQty,
+        totalVal,
       }}
     >
       {children}
