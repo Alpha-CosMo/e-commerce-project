@@ -8,7 +8,7 @@ import {
   DialogTitle,
   TransitionChild,
 } from "@headlessui/react";
-import { XIcon } from "lucide-react";
+import { CreditCard, XIcon } from "lucide-react";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
 
 export default function Drawer({ open, setOpen }) {
@@ -55,14 +55,21 @@ export default function Drawer({ open, setOpen }) {
                       return <CartItem key={item.id} {...item} />;
                     })}
                   </div>
+
+                  <div className='flex justify-between items-center mt-4'>
+                    <h2 className="text-2xl font-semibold">
+                      Total: <span className="ms-auto">$55,000</span>
+                    </h2>
+
+                    <button
+                      type="button"
+                      className="rounded-lg bg-primary px-4 py-2 text-center font-bold text-white"
+                    >
+                    Checkout <CreditCard className='ms-2 inline' />
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              {/* <h2>Total: {formatCurrency(
-                cartItems.reduce((total, cartItem) => { 
-
-                 })
-              )}</h2> */}
             </DialogPanel>
           </div>
         </div>

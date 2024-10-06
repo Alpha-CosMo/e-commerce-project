@@ -1,16 +1,15 @@
 "use client";
+import { useShoppingCart } from '@/app/Context/ShoppingCartContext';
 import data from "/data.json";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ImageSwiper from "@/components/ImageSwiper";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const ProductDetails = () => {
-  const params = useParams();
   const searchParams = useSearchParams();
-
-  const productTitle = params.productName;
   const productId = searchParams.get("id");
+  const { increaseCartQty } = useShoppingCart();
 
   let product = data.find((product) => product.id == productId);
 
@@ -31,15 +30,22 @@ const ProductDetails = () => {
               </p>
             </div>
 
-            <button className="rounded-lg bg-primary px-4 py-2 text-center font-bold text-white">
-              Buy It Now
-            </button>
-
-            <button className="rounded-lg border-2 border-primary bg-transparent px-4 py-2 text-center font-bold text-primary">
+            <button
+              type="button"
+              className="rounded-lg bg-primary px-4 py-2 text-center font-bold text-white"
+              onClick={() => increaseCartQty(product?.id)}
+            >
               Add to Cart
             </button>
 
-            <button className="rounded-lg border-2 border-primary bg-transparent px-4 py-2 text-center font-bold text-primary">
+            {/* <button className="rounded-lg border-2 border-primary bg-transparent px-4 py-2 text-center font-bold text-primary">
+              Add to Cart
+            </button> */}
+
+            <button
+              type="button"
+              className="rounded-lg border-2 border-primary bg-transparent px-4 py-2 text-center font-bold text-primary"
+            >
               Add to wishlist
             </button>
           </div>
