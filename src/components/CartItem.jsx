@@ -24,7 +24,7 @@ export function CartItem({ id, quantity }) {
         <div>
           <h2 className="text-xl font-semibold">{item.title}</h2>
           <p className="mt-2 text-xl">
-            NGN {Intl.NumberFormat().format(item?.price * 1000)}
+            NGN {Intl.NumberFormat().format(item?.price)}
           </p>
         </div>
       </div>
