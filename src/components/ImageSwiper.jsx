@@ -1,14 +1,11 @@
 "use client";
-import React, { useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-
-// import required modules
+import React, { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 export default function ImageSwiper({ images }) {
@@ -50,7 +47,10 @@ export default function ImageSwiper({ images }) {
         {images.map((image) => {
           return (
             <SwiperSlide key={image}>
-              <img className="h-auto w-full rounded-lg cursor-pointer" src={image} />
+              <img
+                className="h-auto w-full cursor-pointer rounded-lg"
+                src={image}
+              />
             </SwiperSlide>
           );
         })}

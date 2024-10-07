@@ -36,9 +36,7 @@ const Login = () => {
       )
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
-    rememberMe: Yup.boolean()
-      .required("Required")
-      .oneOf([true], "You must accept the terms and conditions."),
+    rememberMe: Yup.boolean().optional(),
   });
 
   const SignInWithPopUp = async () => {

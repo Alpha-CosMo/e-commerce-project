@@ -3,34 +3,25 @@ import Link from "next/link";
 import Image from "next/image";
 import data from "/data.json";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
+import { useEffect, useState } from "react";
 
 function ProductsListing() {
   const products = data;
+  const [sortedProducts, setSortedProducts] = useState([]);
+  const { increaseCartQty, searchParams } = useShoppingCart();
 
-  const { getItemsQty, increaseCartQty, decreaseCartQty, removeFromCart } =
-    useShoppingCart();
-
-  // useEffect(() => {
-  //   axios
-  //     .get("https://api.escuelajs.co/api/v1/products")
-  //     .then((response) => {
-  //       setProducts(response.data);
-  //     })
-
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
-  // function sortArrayById(arr) {
-  //   return arr.sort((a, b) => a.id - b.id);
-  // }
-  // const sortedProducts = sortArrayById(data);
-  // console.log(sortedProducts);
+  useEffect(() => {
+    const filteredItems = products.filter((item) => {
+      return searchParams.toLowerCase() === ""
+        ? "Not Found"
+        : item.title.toLowerCase().includes(searchParams.toLowerCase().trim());
+    });
+    setSortedProducts(filteredItems);
+  }, [searchParams, products]);
 
   return (
     <div className="grid grid-cols-2 gap-5 px-5 pt-10 lg:grid-cols-4 lg:px-20">
-      {products?.map((product, index) => {
+      {sortedProducts?.map((product, index) => {
         return (
           index < 20 && (
             <div

@@ -1,13 +1,9 @@
 "use client";
-import { useField } from "formik";
-import { Eye, EyeOff } from 'lucide-react';
 import { useState } from "react";
+import { useField } from "formik";
+import { Eye, EyeOff } from "lucide-react";
 
 const MyPasswordInput = ({ label, ...props }) => {
-  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-  // which we can spread on <input>. We can use field meta to show an error
-  // message if the field is invalid and it has been touched (i.e. visited)
-
   const [field, meta] = useField(props);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,11 +27,7 @@ const MyPasswordInput = ({ label, ...props }) => {
           onClick={() => setShowPassword((prev) => !prev)}
           type="button"
         >
-          {showPassword ? (
-            <EyeOff/>
-          ) : (
-            <Eye/>
-          )}
+          {showPassword ? <EyeOff /> : <Eye />}
         </button>
       </div>
       {meta.touched && meta.error ? (

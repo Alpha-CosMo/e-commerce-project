@@ -15,7 +15,7 @@ import {
 import { auth, db } from "../config/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import Image from 'next/image';
+import Image from "next/image";
 
 const Signup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -106,7 +106,12 @@ const Signup = () => {
           >
             Sign Up with Google
             <span className="m-0 ms-4 text-3xl leading-none">
-              <Image src="/svg/google.svg" alt='google icon' width={30} height={30}/>
+              <Image
+                src="/svg/google.svg"
+                alt="google icon"
+                width={30}
+                height={30}
+              />
             </span>
           </button>
           <div className="grid gap-6 md:grid-cols-2">
@@ -120,7 +125,6 @@ const Signup = () => {
             />
 
             <MyTextInput
-              // onChange={(e) => setLastName(e.target.value)}
               label="Last Name"
               name="lastName"
               id="lastName"
@@ -130,7 +134,6 @@ const Signup = () => {
           </div>
 
           <MyTextInput
-            // onChange={(e) => setEmail(e.target.value)}
             label="Email Address"
             name="email"
             id="email"
@@ -139,7 +142,6 @@ const Signup = () => {
           />
 
           <MyPasswordInput
-            // onChange={(e) => setPassword(e.target.value)}
             label="Enter Password"
             name="password"
             id="password"

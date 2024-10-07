@@ -1,5 +1,4 @@
 "use client";
-import { CartItem } from "./CartItem";
 
 import {
   Dialog,
@@ -8,9 +7,10 @@ import {
   DialogTitle,
   TransitionChild,
 } from "@headlessui/react";
+import Link from "next/link";
+import { CartItem } from "./CartItem";
 import { CreditCard, XIcon } from "lucide-react";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
-import Link from "next/link";
 
 export default function Drawer({ open, setOpen }) {
   const { cartItems, totalVal } = useShoppingCart();

@@ -1,20 +1,21 @@
 "use client";
 import Link from "next/link";
+import Drawer from "./Drawer";
 import Image from "next/image";
-import { useContext, useState } from "react";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 import { auth } from "@/app/config/firebase";
 import { AuthContext } from "@/app/Context/AuthContext";
-import { Heart, LogOut, LucideShoppingCart, Settings } from "lucide-react";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import Drawer from "./Drawer";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { Heart, LogOut, LucideShoppingCart, Settings } from "lucide-react";
 
 const Header = () => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const { currentUser } = useContext(AuthContext);
-  const router = useRouter();
+  const { searchParams, setSearchParams } = useShoppingCart();
 
   const logout = () => {
     signOut(auth);
@@ -153,6 +154,8 @@ const Header = () => {
               id="default-search"
               className="me-12 block p-4 text-gray-900 outline-none focus:outline-none"
               placeholder="Search Anything..."
+              value={searchParams}
+              onChange={(e) => setSearchParams(e.target.value)}
               required
             />
 

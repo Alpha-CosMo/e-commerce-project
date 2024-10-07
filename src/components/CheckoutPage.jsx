@@ -51,10 +51,10 @@ const CheckoutPage = ({ amount }) => {
 
     if (error) {
       setErrorMsg(error.message);
-    } else {
-      // The payment UI automatically closes with a success animation
-      // Your customer is redirected to your return_url
     }
+    // The payment UI automatically closes with a success animation
+    // Your customer is redirected to your return_url
+
     setLoading((prev) => !prev);
   }
 

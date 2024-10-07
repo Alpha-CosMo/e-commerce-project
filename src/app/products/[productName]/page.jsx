@@ -38,10 +38,6 @@ const ProductDetails = () => {
               Add to Cart
             </button>
 
-            {/* <button className="rounded-lg border-2 border-primary bg-transparent px-4 py-2 text-center font-bold text-primary">
-              Add to Cart
-            </button> */}
-
             <button
               type="button"
               className="rounded-lg border-2 border-primary bg-transparent px-4 py-2 text-center font-bold text-primary"

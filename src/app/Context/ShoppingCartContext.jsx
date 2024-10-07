@@ -11,6 +11,8 @@ export const useShoppingCart = () => {
 
 export const ShoppingCartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [searchParams, setSearchParams] = useState("");
+
   const cartQty = cartItems?.reduce((qty, item) => {
     item.qty + qty;
   }, 0);
@@ -72,6 +74,8 @@ export const ShoppingCartProvider = ({ children }) => {
         cartItems,
         cartQty,
         totalVal,
+        searchParams,
+        setSearchParams,
       }}
     >
       {children}
