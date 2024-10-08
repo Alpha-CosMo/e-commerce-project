@@ -18,10 +18,10 @@ const ProductDetails = () => {
       <Header />
 
       <section className="my-8 px-5 lg:px-20">
-        <div className="grid grid-cols-2 items-center gap-8">
+        <div className="flex items-start gap-8">
           <ImageSwiper images={product?.images} />
 
-          <div className="flex flex-col gap-2">
+          <div className="flex w-[40%] flex-col gap-2 pt-16">
             <div className="space-y-2">
               <h2 className="text-2xl font-bold">{product?.title}</h2>
 

@@ -12,7 +12,7 @@ export default function ImageSwiper({ images }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
-    <div className="">
+    <div className="w-[60%]">
       <Swiper
         style={{
           "--swiper-navigation-color": "#fff",
@@ -28,7 +28,10 @@ export default function ImageSwiper({ images }) {
         {images.map((image) => {
           return (
             <SwiperSlide key={image}>
-              <img className="h-auto w-full rounded-lg" src={image} />
+              <img
+                className="aspect-square h-auto max-h-[484px] w-full rounded-lg object-cover"
+                src={image}
+              />
             </SwiperSlide>
           );
         })}
