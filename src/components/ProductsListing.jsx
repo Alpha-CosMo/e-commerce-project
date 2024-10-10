@@ -23,7 +23,7 @@ function ProductsListing() {
     <div className="grid grid-cols-2 gap-5 px-5 pt-10 lg:grid-cols-4 lg:px-20">
       {sortedProducts?.map((product, index) => {
         return (
-          index < 20 && (
+          index > 1 && (
             <div
               key={product?.id}
               className="overflow-hidden rounded-lg bg-gray-200 shadow"
@@ -31,7 +31,7 @@ function ProductsListing() {
               <Link
                 href={`/products/${product?.title.replace(/\s+/g, "-").toLowerCase()}?id=${product?.id}`}
               >
-                <Image
+                <img
                   className="w-full object-cover"
                   src={product.images[0]}
                   alt="product image"

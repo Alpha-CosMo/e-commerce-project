@@ -16,10 +16,9 @@ import MyPasswordInput from "@/components/MyPasswordInput";
 import Link from "next/link";
 import Image from "next/image";
 
-const Login = () => {
+const Login = async () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  const provider = new GoogleAuthProvider();
 
   const initialValues = {
     email: "",
@@ -43,22 +42,26 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
     router.push("/");
-
-    // .then((result) => {
-    //   const credential = GoogleAuthProvider.credentialFromResult(result);
-    //   const token = credential.accessToken;
-    //   const user = result.user;
-    // }).catch((error) => {
-    //   const errorMessage = error.message;
-    //   const credential = GoogleAuthProvider.credentialFromError(error);
-    // });
   };
 
   const handleSubmit = async (values, actions) => {
-    setIsSubmitting((prev) => !prev);
-    await signInWithEmailAndPassword(auth, values.email, values.password);
-    router.push("/");
-    console.log(auth.currentUser.uid);
+    try {
+      setIsSubmitting((prev) => !prev);
+
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password,
+      );
+      const token = await userCredential.user.getIdToken();
+      document.cookie = `token=${token}; path=/`;
+
+      router.push("/");
+
+      console.log(auth.currentUser.uid);
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   return (

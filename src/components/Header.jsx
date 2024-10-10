@@ -17,9 +17,14 @@ const Header = () => {
   const { currentUser } = useContext(AuthContext);
   const { searchParams, setSearchParams } = useShoppingCart();
 
-  const logout = () => {
-    signOut(auth);
-    router.push("/login");
+  const logout = async () => {
+    try {
+      signOut(auth);
+      document.cookie = "token=; Max-Age=0; path=/"; // Clear token
+      router.push("/login"); // Redirect to login
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const { cartItems } = useShoppingCart();
@@ -61,13 +66,15 @@ const Header = () => {
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
-                  <Image
-                    className="cursor-pointer rounded-full"
-                    src={currentUser?.photoURL}
-                    alt="user photo"
-                    width={50}
-                    height={50}
-                  />
+                  {currentUser?.photoURL && (
+                    <Image
+                      className="cursor-pointer rounded-full"
+                      src={currentUser?.photoURL}
+                      alt="user photo"
+                      width={50}
+                      height={50}
+                    />
+                  )}
                 </MenuButton>
               </div>
               <MenuItems
@@ -104,7 +111,7 @@ const Header = () => {
                 <MenuItem>
                   <span
                     onClick={() => logout()}
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                    className="block cursor-pointer px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                   >
                     <LogOut className="me-2 inline size-4" /> Sign out
                   </span>
