@@ -63,6 +63,7 @@ const DeliveryDetails = () => {
     
   };
   const { currentUser } = useContext(AuthContext);
+  console.log(currentUser)
   // eslint-disable-next-line react/prop-types
   const ProtectedRoute = ({ children }) =>{
     if(!currentUser){

@@ -1,17 +1,54 @@
 "use client";
-
-import { createContext, useContext, useState } from "react";
+import { db } from "../config/firebase";
+import { AuthContext } from "./AuthContext";
+import { createContext, useContext, useState, useEffect } from "react";
 import data from "/data.json";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/app/config/firebase";
+
+import { collection, deleteDoc, addDoc, query, where, updateDoc, getDocs } from "firebase/firestore";
 
 const ShoppingCartContext = createContext({});
+
 
 export const useShoppingCart = () => {
   return useContext(ShoppingCartContext);
 };
 
 export const ShoppingCartProvider = ({ children }) => {
+  const { currentUser } = useContext(AuthContext)
   const [cartItems, setCartItems] = useState([]);
+  const[cart, setCart] = useState([])
+
   const [searchParams, setSearchParams] = useState("");
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const currentUserUid = user.uid;
+    
+        // Filter based on UID 
+        const q = query(collection(db, "Cart"), where("uid", "==", currentUserUid));
+        getDocs(q)
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // Process the retrieved data
+              const userData = ({id:doc.id, ...doc.data()});
+              // sets the retrieved data to the cart array
+              setCartItems(userData);
+              console.log(cart)
+            });
+          })
+          .catch((error) => {
+            console.error("Error getting documents: ", error);
+          });
+      } else {
+        // User is not signed in
+        console.log("User is not signed in");
+      }
+    });
+  },)
+
 
   const cartQty = cartItems?.reduce((qty, item) => {
     item.qty + qty;
@@ -25,6 +62,53 @@ export const ShoppingCartProvider = ({ children }) => {
   function getItemsQty(id) {
     return cartItems.find((item) => item.id === id)?.quantity || 0;
   }
+
+  useEffect(()=>{
+    const getProd = async() => {
+      const ref = collection(db,"Product")
+      const data = await getDocs(ref)
+      const Prod = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
+      console.log(Prod)
+      setCart(Prod)
+    }
+    getProd()
+  },[])
+
+  let Product;
+  const add = async(cart) =>{
+    Product=cart;
+    Product['qty']=1;
+    Product['Userid'] = currentUser.uid;
+    Product['TotalProductPrice']=Product.qty*Product.Price;
+    const ref = collection(db, "Cart")
+    await addDoc(ref, {Product})
+  }
+
+  const inc = async(cart) =>{
+    Product=cart;
+    Product.qty=Product.qty+1;
+    Product.TotalProductPrice=Product.qty*Product.Price;
+    const ref = collection(db, "Cart");
+    const updateref = doc(ref, prod.id)
+    await updateDoc(updateref, Product);
+  }
+
+  const dec = async(cart) =>{
+    Product=cart;
+    Product.qty=Product.qty-1;
+    Product.TotalProductPrice=Product.qty*Product.Price;
+    if(Product.qty > 1){
+      const ref = collection(db, "Cart");
+      const updateref = doc(ref, prod.id)
+      await updateDoc(updateref, Product);
+    }
+  }
+
+  const del = async(cart, prodId) =>{
+    await deleteDoc(doc(db, "Cart", prodId))
+    setCart(cart.filter((item) => item.id !== prodId))
+  }
+
 
   function increaseCartQty(id) {
     setCartItems((currItems) => {
@@ -76,6 +160,10 @@ export const ShoppingCartProvider = ({ children }) => {
         totalVal,
         searchParams,
         setSearchParams,
+        add,
+        inc,
+        dec,
+        del
       }}
     >
       {children}

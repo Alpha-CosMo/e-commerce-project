@@ -3,8 +3,9 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
-import { db } from "../config/firebase";
+import { db, storage } from "../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { auth } from "../config/firebase";
 import { useContext, useEffect } from 'react'
 import { AuthContext } from "../Context/AuthContext";
@@ -59,6 +60,7 @@ const Settings = () => {
 },[])
 
   const {currentUser} = useContext(AuthContext)
+  console.log(currentUser)
 
   const handleSubmit = async(values, actions) => {
     setIsSubmitting((prev) => !prev);
@@ -69,23 +71,40 @@ const Settings = () => {
     const storageRef = ref(storage, `images/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file, metadata);
     uploadTask.on(
-        (error) => {
-            console.log(error)
-        }, 
-        () => {
-        const productCollectionRef = collection(db, "Users") 
+      (error) => {
+          console.log(error)
+      }, 
+      () => {
+        const dbref = collection(db, "User_Detail")
         getDownloadURL(uploadTask.snapshot.ref).then( async(downloadURL) => {
-          const dbref = collection(db, "User_Detail")
           const updateRef = doc(dbref, users.id)
-          const result = await updateDoc(updateRef, {
+          await updateDoc(updateRef, {
             First_Name: values.firstName,
             Last_Name: values.lastName,
             Username: values.userName,
             Location: values.location,
             UserPics: downloadURL,
             uid: currentUser.uid
-          })
-        });
+      });
+  })
+    // uploadTask.on(
+    //     (error) => {
+    //         console.log(error)
+    //     }, 
+    //     () => {
+    //     const productCollectionRef = collection(db, "Users") 
+    //     getDownloadURL(uploadTask.snapshot.ref).then( async(downloadURL) => {
+    //       const dbref = collection(db, "User_Detail")
+    //       const updateRef = doc(dbref, users.id)
+    //       const result = await updateDoc(updateRef, {
+    //         First_Name: values.firstName,
+    //         Last_Name: values.lastName,
+    //         Username: values.userName,
+    //         Location: values.location,
+    //         UserPics: downloadURL,
+    //         uid: currentUser.uid
+    //       })
+    //     });
     })
   };
   return (

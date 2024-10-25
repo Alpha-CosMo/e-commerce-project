@@ -10,10 +10,44 @@ import {
 import Link from "next/link";
 import { CartItem } from "./CartItem";
 import { CreditCard, XIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getDocs, collection, query,where } from "firebase/firestore";
+import { db } from "@/app/config/firebase";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/app/config/firebase";
+
 
 export default function Drawer({ open, setOpen }) {
   const { cartItems, totalVal } = useShoppingCart();
+  const [cart, setCart] = useState([])
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const currentUserUid = user.uid;
+    
+        // Filter based on UID 
+        const q = query(collection(db, "Cart"), where("uid", "==", currentUserUid));
+        getDocs(q)
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // Process the retrieved data
+              const userData = ({id:doc.id, ...doc.data()});
+              // sets the retrieved data to the cart array
+              setCart(userData);
+            });
+          })
+          .catch((error) => {
+            console.error("Error getting documents: ", error);
+          });
+      } else {
+        // User is not signed in
+        console.log("User is not signed in");
+      }
+    });
+  },)
+  
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
