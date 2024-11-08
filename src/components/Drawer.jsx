@@ -19,8 +19,8 @@ import { auth } from "@/app/config/firebase";
 
 
 export default function Drawer({ open, setOpen }) {
-  const { cartItems, totalVal } = useShoppingCart();
-  const [cart, setCart] = useState([])
+  const { cartItems, cart, totalVal } = useShoppingCart();
+  // const [cart, setCart] = useState([])
 
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
@@ -86,11 +86,9 @@ export default function Drawer({ open, setOpen }) {
 
                 <div className="relative mt-6 flex-1 px-4 sm:px-6">
                   <div className="flex flex-col gap-4">
-                    {cartItems.map((item) => {
-                      return <CartItem key={item.id} {...item} />;
-                    })}
+                    <CartItem />
                   </div>
-                  {totalVal !== 0 && (
+                  {/* {totalVal !== 0 && ( */}
                     <div className="mt-4 flex items-center justify-between">
                       <h2 className="text-2xl font-semibold">
                         Total:{" "}
@@ -108,7 +106,7 @@ export default function Drawer({ open, setOpen }) {
                         </button>
                       </Link>
                     </div>
-                  )}
+                  {/* )} */}
                 </div>
               </div>
             </DialogPanel>

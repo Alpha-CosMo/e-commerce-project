@@ -17,6 +17,10 @@ const nextConfig = {
         hostname: "placeimg.com",
         pathname: "/**",
       },
+      {
+          protocol: "https",
+          hostname: 'firebasestorage.googleapis.com', // Add the hostname here
+      },
     ],
   },
 };

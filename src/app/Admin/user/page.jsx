@@ -1,6 +1,6 @@
 "use client"
 import { db } from '@/app/config/firebase'
-import AdminSideBar from '@/Components/AdminSideBar'
+import AdminSideBar from '@/components/AdminSideBar'
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import Link from 'next/link'
 import { useState } from 'react'

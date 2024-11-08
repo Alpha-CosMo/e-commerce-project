@@ -28,7 +28,7 @@ const Header = () => {
   };
 
   const { cartItems } = useShoppingCart();
-
+  // console.log(cartItems)
   return (
     <nav className="z-20 w-full border-b border-gray-200 bg-white">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
@@ -43,7 +43,7 @@ const Header = () => {
 
         <div className="flex gap-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <div className="flex gap-4">
-            {cartItems?.length !== 0 && (
+            {/* {cartItems?.length !== 0 && ( */}
               <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
@@ -55,7 +55,7 @@ const Header = () => {
                   {cartItems?.length}
                 </div>
               </button>
-            )}
+            {/* )} */}
 
             <Drawer open={open} setOpen={setOpen} />
           </div>

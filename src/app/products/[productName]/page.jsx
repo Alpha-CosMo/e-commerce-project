@@ -1,6 +1,6 @@
 "use client";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import data from "/data.json";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -15,15 +15,20 @@ const ProductDetails = () => {
   const searchParams = useSearchParams();
   const productId = searchParams.get("id");
   const { add } = useShoppingCart();
-  const getProd = async() =>{
-    const ref = collection(db, "Product")
-    const data = await getDocs(ref)
-    const fildata = data.docs.map((doc) => ({...doc.data(), id:doc.id}))
-    setProd(fildata)
-  }
-  getProd()
 
+  useEffect(() => {
+    const getProd = async() =>{
+      const ref = collection(db, "Product")
+      const data = await getDocs(ref)
+      const fildata = data.docs.map((doc) => ({...doc.data(), id:doc.id}))
+      setProd(fildata)
+    }
+    getProd()
+  },)
+  
   let product = prod.find((product) => product.id == productId);
+  
+
 
   return (
     <>

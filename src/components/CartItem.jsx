@@ -10,8 +10,7 @@ import { auth } from "@/app/config/firebase";
 import { Minus, Plus } from "lucide-react";
 
 export function CartItem({ id, quantity}) {
-  const [cart, setCart] = useState([])
-  const { inc, dec, del } =
+  const { inc, dec, del, cartItems } =
     useShoppingCart();
 
   // let item = data?.find((product) => product.id == id);
@@ -25,40 +24,40 @@ export function CartItem({ id, quantity}) {
     // }
     // getProd()
 
-    useEffect(()=>{
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          const currentUserUid = user.uid;
+    // useEffect(()=>{
+    //   onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //       const currentUserUid = user.uid;
       
-          // Filter based on UID 
-          const q = query(collection(db, "Cart"), where("uid", "==", currentUserUid));
-          getDocs(q)
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                // Process the retrieved data
-                const userData = ({id:doc.id, ...doc.data()});
-                // sets the retrieved data to the cart array
-                setCart(userData);
-              });
-            })
-            .catch((error) => {
-              console.error("Error getting documents: ", error);
-            });
-        } else {
-          // User is not signed in
-          console.log("User is not signed in");
-        }
-      });
+    //       // Filter based on UID 
+    //       const q = query(collection(db, "Cart"), where("uid", "==", currentUserUid));
+    //       getDocs(q)
+    //         .then((querySnapshot) => {
+    //           querySnapshot.forEach((doc) => {
+    //             // Process the retrieved data
+    //             const userData = ({id:doc.id, ...doc.data()});
+    //             // sets the retrieved data to the cart array
+    //             setCart(userData);
+    //           });
+    //         })
+    //         .catch((error) => {
+    //           console.error("Error getting documents: ", error);
+    //         });
+    //     } else {
+    //       // User is not signed in
+    //       console.log("User is not signed in");
+    //     }
+    //   });
   
-    },)
+    // },)
 
 
   return (
     <>
-    {
-      cart.map((item)=>{
-        return(
-          <div key={item.id} className="border-b-2 py-4">
+          {
+            cartItems.map((item) =>{
+              return(
+                <div key={item.id} className="border-b-2 py-4">
             <div className="mb-6 flex items-center gap-4">
               <Image
                 className="rounded-md"
@@ -79,7 +78,7 @@ export function CartItem({ id, quantity}) {
             <div className="flex items-center justify-between">
               <button
                 className="rounded-md bg-red-500 px-4 py-1.5 text-white"
-                onClick={() => inc(item)}
+                onClick={() => del(item.id)}
               >
                 Remove
               </button>
@@ -96,16 +95,17 @@ export function CartItem({ id, quantity}) {
       
                 <button
                   className="flex items-center justify-center rounded-md bg-neutral-500 p-3 text-white"
-                  onClick={() => del(item)}
+                  onClick={() => inc(item)}
                 >
                   <Plus className="size-3 font-semibold" />
                 </button>
               </div>
             </div>
           </div>
-        )
-      })
-    }
+              )
+            })
+          }
+          
     </>
   );
 }

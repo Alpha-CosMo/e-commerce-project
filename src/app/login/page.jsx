@@ -16,7 +16,7 @@ import MyPasswordInput from "@/components/MyPasswordInput";
 import Link from "next/link";
 import Image from "next/image";
 
-const Login = async () => {
+const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
