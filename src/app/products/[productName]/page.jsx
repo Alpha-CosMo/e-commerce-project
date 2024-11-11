@@ -36,7 +36,7 @@ const ProductDetails = () => {
 
       <section className="my-8 px-5 lg:px-20">
         <div className="flex items-start gap-8">
-          {/* <ImageSwiper images={product?.photoURL} /> */}
+          <ImageSwiper images={product?.photoURL} />
 
           <div className="flex w-[40%] flex-col gap-2 pt-16">
             <div className="space-y-2">

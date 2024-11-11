@@ -21,6 +21,7 @@ export const ShoppingCartProvider = ({ children }) => {
   const[cart, setCart] = useState([])
 
   const [searchParams, setSearchParams] = useState("");
+  
 
   useEffect(()=>{
     onAuthStateChanged(auth, async(user) => {
