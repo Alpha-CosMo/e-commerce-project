@@ -50,19 +50,36 @@ const DeliveryDetails = () => {
 
   const handleSubmit = async(values, actions) => {
     setIsSubmitting((prev) => !prev);
+    const updates ={}
+    if(values.addressLine1 && values.addressLine1.trim() !== ""){
+      updates.addressLine1 = values.addressLine1;
+    }else{
+      console.log("Email is empty")
+    }
+    if(values.addressLine2 && values.addressLine2.trim() !== ""){
+      updates.addressLine2 = values.addressLine2;
+    }else{
+      console.log("Email is empty")
+    }
+    if(values.city && values.city.trim() !== ""){
+      updates.city = values.city;
+    }else{
+      console.log("city is empty")
+    }
+    if(state && state.trim() !== ""){
+      updates.state = state;
+    }else{
+      console.log("Location is empty")
+    }
     const dbref = collection(db, "User_Detail")
     const updateRef = doc(dbref, users.id)
-    const result = await updateDoc(updateRef, {
-      addressLine1: values.addressLine1,
-      addressLine2: values.addressLine2,
-      city: values.city,
-      state: values.state,
-    })
+    const result = await updateDoc(updateRef, updates)
     //! Delete Timeout fn then handle POST Operation Here
     setIsSubmitting((prev) => !prev);
     
   };
   const { currentUser } = useContext(AuthContext);
+  console.log(currentUser)
   // eslint-disable-next-line react/prop-types
   const ProtectedRoute = ({ children }) =>{
     if(!currentUser){

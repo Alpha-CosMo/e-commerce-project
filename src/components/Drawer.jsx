@@ -10,10 +10,44 @@ import {
 import Link from "next/link";
 import { CartItem } from "./CartItem";
 import { CreditCard, XIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getDocs, collection, query,where } from "firebase/firestore";
+import { db } from "@/app/config/firebase";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/app/config/firebase";
+
 
 export default function Drawer({ open, setOpen }) {
-  const { cartItems, totalVal } = useShoppingCart();
+  const { cartItems, cart, totalVal } = useShoppingCart();
+  // const [cart, setCart] = useState([])
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const currentUserUid = user.uid;
+    
+        // Filter based on UID 
+        const q = query(collection(db, "Cart"), where("uid", "==", currentUserUid));
+        getDocs(q)
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // Process the retrieved data
+              const userData = ({id:doc.id, ...doc.data()});
+              // sets the retrieved data to the cart array
+              setCart(userData);
+            });
+          })
+          .catch((error) => {
+            console.error("Error getting documents: ", error);
+          });
+      } else {
+        // User is not signed in
+        console.log("User is not signed in");
+      }
+    });
+  },)
+  
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -52,11 +86,9 @@ export default function Drawer({ open, setOpen }) {
 
                 <div className="relative mt-6 flex-1 px-4 sm:px-6">
                   <div className="flex flex-col gap-4">
-                    {cartItems.map((item) => {
-                      return <CartItem key={item.id} {...item} />;
-                    })}
+                    <CartItem />
                   </div>
-                  {totalVal !== 0 && (
+                  {/* {totalVal !== 0 && ( */}
                     <div className="mt-4 flex items-center justify-between">
                       <h2 className="text-2xl font-semibold">
                         Total:{" "}
@@ -74,7 +106,7 @@ export default function Drawer({ open, setOpen }) {
                         </button>
                       </Link>
                     </div>
-                  )}
+                  {/* )} */}
                 </div>
               </div>
             </DialogPanel>

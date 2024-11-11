@@ -2,10 +2,11 @@
 import Link from "next/link";
 import Drawer from "./Drawer";
 import Image from "next/image";
-import { signOut } from "firebase/auth";
+import { collection, where, query, getDocs } from "firebase/firestore";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
-import { auth } from "@/app/config/firebase";
+import { useContext, useState, useEffect } from "react";
+import { auth, db } from "@/app/config/firebase";
 import { AuthContext } from "@/app/Context/AuthContext";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
@@ -15,7 +16,37 @@ const Header = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { currentUser } = useContext(AuthContext);
+  const [user, setUser] = useState([])
   const { searchParams, setSearchParams } = useShoppingCart();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const currentUserUid = user.uid;
+
+        // Filter based on UID (or email, if preferred)
+        const q = query(
+          collection(db, "User_Detail"),
+          where("Userid", "==", currentUserUid),
+        );
+        getDocs(q)
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // Process the retrieved data
+              const userData = { id: doc.id, ...doc.data() };
+              setUser(userData);
+              console.log(userData.email);
+            });
+          })
+          .catch((error) => {
+            console.error("Error getting documents: ", error);
+          });
+      } else {
+        // User is not signed in
+        console.log("User is not signed in");
+      }
+    });
+  }, []);
 
   const logout = async () => {
     try {
@@ -28,7 +59,7 @@ const Header = () => {
   };
 
   const { cartItems } = useShoppingCart();
-
+  // console.log(cartItems)
   return (
     <nav className="z-20 w-full border-b border-gray-200 bg-white">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
@@ -43,7 +74,7 @@ const Header = () => {
 
         <div className="flex gap-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <div className="flex gap-4">
-            {cartItems?.length !== 0 && (
+            {/* {cartItems?.length !== 0 && ( */}
               <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
@@ -55,7 +86,7 @@ const Header = () => {
                   {cartItems?.length}
                 </div>
               </button>
-            )}
+            {/* )} */}
 
             <Drawer open={open} setOpen={setOpen} />
           </div>
@@ -66,15 +97,17 @@ const Header = () => {
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
-                  {currentUser?.photoURL && (
-                    <Image
-                      className="cursor-pointer rounded-full"
-                      src={currentUser?.photoURL}
-                      alt="user photo"
-                      width={50}
-                      height={50}
-                    />
-                  )}
+                  {user.UserPics ? (
+                  <Image
+                    className="cursor-pointer h-[3rem] rounded-full"
+                    src={user.UserPics}
+                    alt="user photo"
+                    width={50}
+                    height={50}
+                  />
+                ) : (
+                  "open nav bar"
+                )}
                 </MenuButton>
               </div>
               <MenuItems

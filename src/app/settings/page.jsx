@@ -3,8 +3,9 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
-import { db } from "../config/firebase";
+import { db, storage } from "../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { auth } from "../config/firebase";
 import { useContext, useEffect } from 'react'
 import { AuthContext } from "../Context/AuthContext";
@@ -58,7 +59,45 @@ const Settings = () => {
 
 },[])
 
+
+const updateProfile = async (e) => {
+  e.preventDefault()
+  // const currentUserUid = user.uid;
+  // const q = query(collection(db, "Users" ), where("uid", "==", currentUserUid));
+  // const docRef = doc(db, "Users", currentUserUid)
+  const updates ={}
+  // updates.id = currentUser.uid
+  if(email && email.trim() !== ""){
+     updates.email = email;
+  }else{
+    console.log("Email is empty")
+  }
+
+  if(FirstName && FirstName.trim() !== ""){
+    updates.FirstName = FirstName;
+  }else{
+    console.log("Email is empty")
+  }
+  if(LastName && LastName.trim() !== ""){
+    updates.LastName = LastName;
+  }else{
+    console.log("Email is empty")
+  }
+  if(Phone && Phone.trim() !== ""){
+    updates.Phone = Phone;
+  }else{
+    console.log("Email is empty")
+  }
+  const dbref = collection(db, "userDetails")
+  const updateRef = doc(dbref, userDetails.id)
+  const result = await updateDoc(updateRef, updates)
+ console.log(result)
+ console.log(updates)
+
+}
+
   const {currentUser} = useContext(AuthContext)
+  console.log(currentUser)
 
   const handleSubmit = async(values, actions) => {
     setIsSubmitting((prev) => !prev);
@@ -69,23 +108,61 @@ const Settings = () => {
     const storageRef = ref(storage, `images/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file, metadata);
     uploadTask.on(
-        (error) => {
-            console.log(error)
-        }, 
-        () => {
-        const productCollectionRef = collection(db, "Users") 
+      (error) => {
+          console.log(error)
+      }, 
+      () => {
+        const dbref = collection(db, "User_Detail")
         getDownloadURL(uploadTask.snapshot.ref).then( async(downloadURL) => {
-          const dbref = collection(db, "User_Detail")
+          const updates ={}
+          // updates.id = currentUser.uid
+          if(values.userName && values.userName.trim() !== ""){
+            updates.userName = values.userName;
+          }else{
+            console.log("Email is empty")
+          }
+
+          if(values.firstName && values.firstName.trim() !== ""){
+            updates.First_Name = values.firstName;
+          }else{
+            console.log("Email is empty")
+          }
+          if(values.lastName && values.lastName.trim() !== ""){
+            updates.Last_Name = values.lastName;
+          }else{
+            console.log("Email is empty")
+          }
+          if(values.location && values.location.trim() !== ""){
+            updates.Location = values.location;
+          }else{
+            console.log("Location is empty")
+          }
+          if(downloadURL && downloadURL.trim() !== ""){
+            updates.UserPics = downloadURL;
+          }else{
+            console.log("Location is empty")
+          }
           const updateRef = doc(dbref, users.id)
-          const result = await updateDoc(updateRef, {
-            First_Name: values.firstName,
-            Last_Name: values.lastName,
-            Username: values.userName,
-            Location: values.location,
-            UserPics: downloadURL,
-            uid: currentUser.uid
-          })
-        });
+          await updateDoc(updateRef, updates);
+  })
+    // uploadTask.on(
+    //     (error) => {
+    //         console.log(error)
+    //     }, 
+    //     () => {
+    //     const productCollectionRef = collection(db, "Users") 
+    //     getDownloadURL(uploadTask.snapshot.ref).then( async(downloadURL) => {
+    //       const dbref = collection(db, "User_Detail")
+    //       const updateRef = doc(dbref, users.id)
+    //       const result = await updateDoc(updateRef, {
+    //         First_Name: values.firstName,
+    //         Last_Name: values.lastName,
+    //         Username: values.userName,
+    //         Location: values.location,
+    //         UserPics: downloadURL,
+    //         uid: currentUser.uid
+    //       })
+    //     });
     })
   };
   return (
