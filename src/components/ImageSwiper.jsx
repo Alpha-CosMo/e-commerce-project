@@ -13,7 +13,7 @@ export default function ImageSwiper({ images }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
-    <div className="w-[60%]">
+    <div className="w-full">
       <Swiper
         style={{
           "--swiper-navigation-color": "#fff",
@@ -54,7 +54,7 @@ export default function ImageSwiper({ images }) {
         {images?.map((image) => {
           return (
             <SwiperSlide key={image}>
-            <Image
+              <Image
                 className="h-auto w-full cursor-pointer rounded-lg"
                 src={image}
                 alt="image"

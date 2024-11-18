@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function ProductsListing({ sortedProducts, add }) {
   return (
-    <div className="grid grid-cols-2 gap-5 px-5 pt-10 lg:grid-cols-4 lg:px-20">
+    <div className="grid grid-cols-2 gap-5 px-5 pt-10 lg:grid-cols-3 xl:grid-cols-4 lg:px-20">
       {sortedProducts?.map((product) => {
         return (
           <div
@@ -14,8 +14,8 @@ function ProductsListing({ sortedProducts, add }) {
               href={`/products/${product?.Title.replace(/\s+/g, "-").toLowerCase()}?id=${product?.id}`}
             >
               <Image
-                className="w-full object-cover"
-                src={product.photoURL[2]}
+                className="h-72 w-full object-fill"
+                src={product.photoURL[0]}
                 alt="product image"
                 width="640"
                 height="640"

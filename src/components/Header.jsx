@@ -10,7 +10,13 @@ import { auth, db } from "@/app/config/firebase";
 import { AuthContext } from "@/app/Context/AuthContext";
 import { useShoppingCart } from "@/app/Context/ShoppingCartContext";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { Heart, LogOut, LucideShoppingCart, Settings } from "lucide-react";
+import {
+  Heart,
+  LayoutDashboard,
+  LogOut,
+  LucideShoppingCart,
+  Settings,
+} from "lucide-react";
 
 const Header = ({ searchParams, setSearchParams }) => {
   const router = useRouter();
@@ -18,8 +24,6 @@ const Header = ({ searchParams, setSearchParams }) => {
   const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState([]);
   const { cartItems } = useShoppingCart();
-
-  // const { searchParams, setSearchParams } = useShoppingCart();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -74,7 +78,6 @@ const Header = ({ searchParams, setSearchParams }) => {
 
         <div className="flex gap-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <div className="flex gap-4">
-            {/* {cartItems?.length !== 0 && ( */}
             <button
               type="button"
               onClick={() => setOpen((prev) => !prev)}
@@ -86,7 +89,6 @@ const Header = ({ searchParams, setSearchParams }) => {
                 {cartItems?.length}
               </div>
             </button>
-            {/* )} */}
 
             <Drawer open={open} setOpen={setOpen} />
           </div>
@@ -107,7 +109,7 @@ const Header = ({ searchParams, setSearchParams }) => {
                     />
                   </MenuButton>
                 ) : (
-                  <MenuButton className="relative flex rounded-lg bg-primary text-white py-2 px-3">
+                  <MenuButton className="relative flex rounded-lg bg-primary px-3 py-2 text-white">
                     Open nav bar
                   </MenuButton>
                 )}
@@ -116,6 +118,16 @@ const Header = ({ searchParams, setSearchParams }) => {
                 transition
                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
               >
+                <MenuItem>
+                  <Link
+                    href="/create-product"
+                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                  >
+                    <LayoutDashboard className="me-2 inline size-4" />
+                    Upload Products
+                  </Link>
+                </MenuItem>
+
                 <MenuItem>
                   <Link
                     href="/settings"
