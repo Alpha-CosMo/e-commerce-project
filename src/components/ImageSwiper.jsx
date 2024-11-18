@@ -26,7 +26,7 @@ export default function ImageSwiper({ images }) {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
       >
-        {images.map((image) => {
+        {images?.map((image) => {
           return (
             <SwiperSlide key={image}>
               <Image
